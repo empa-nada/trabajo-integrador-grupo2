@@ -1,24 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<title> PWIP, una pagina de blogs </title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Blog Dinámico</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        header { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+        form { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        button { background: #007BFF; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 3px; }
+        button:hover { background: #0056b3; }
+        .post { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .post h3 { margin-top: 0; }
+        .post-date { color: #777; font-size: 0.85em; }
+    </style>
 </head>
 <body>
-<h1>¡Hola!Esta es nuestra pagina de blogs</h1>
-<p>
-Estamos aprendiendo HTML y CSS.
-  Aqui mostraremos nuestro viaje de aprendizaje y compartiremos nuestro dia a dia
-</p>
-<button>👁‍🗨Presioname</button>
-<h2>Sobre nosotros</h2>
-<p>
-Hola, somos Pwip,  una página de blogs
-</p>
-<h2>Dónde encontrarnos</h2>
-<p>
-Nos podés encontrar en Morón, pwip, messenger facebook y Twitter o (X)
-</body>
-<img src="images/el pwip.jpg" alt="Descripción de la imagen">
 
+    <header>
+        <h1>Mi Blog Personal</h1>
+    </header>
+
+    <!-- Formulario para publicar -->
+    <form id="blogForm">
+        <h2>Crear Nueva Publicación</h2>
+        <input type="text" id="postTitle" placeholder="Título del blog" required>
+        <textarea id="postContent" rows="5" placeholder="Escribe el contenido aquí..." required></textarea>
+        <button type="submit">Publicar Entrada</button>
+    </form>
+
+    <!-- Contenedor donde aparecerán los posts -->
+    <div id="blogPosts"></div>
+
+    <script>
+        const blogForm = document.getElementById('blogForm');
+        const blogPostsContainer = document.getElementById('blogPosts');
+
+        // 1. Cargar posts guardados al abrir la página
+        document.addEventListener('DOMContentLoaded', loadPosts);
+
+        // 2. Evento para capturar el formulario
+        blogForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita que la página se recargue
+
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+            const date = new Date().toLocaleDateString();
+
+            const newPost = { title, content, date };
+
+            savePost(newPost);
+            renderPost(newPost);
+
+            blogForm.reset(); // Limpia el formulario
+        });
+
+        // 3. Función para mostrar un post en pantalla
+        function renderPost(post) {
+            const postDiv = document.createElement('div');
+            postDiv.classList.add('post');
+            postDiv.innerHTML = `
+                <h3>${post.title}</h3>
+                <p class="post-date">Publicado el: ${post.date}</p>
+                <p>${post.content.replace(/\n/g, '<br>')}</p>
+            `;
+            // Coloca el post nuevo al principio de la lista
+            blogPostsContainer.insertBefore(postDiv, blogPostsContainer.firstChild);
+        }
+
+        // 4. Guardar en el almacenamiento local del navegador
+        function savePost(post) {
+            let posts = JSON.parse(localStorage.getItem('myBlogPosts')) || [];
+            posts.push(post);
+            localStorage.setItem('myBlogPosts', JSON.stringify(posts));
+        }
+
+        // 5. Cargar todos los posts de LocalStorage
+        function loadPosts() {
+            let posts = JSON.parse(localStorage.getItem('myBlogPosts')) || [];
+            // Los mostramos en orden inverso (más reciente primero)
+            posts.forEach(post => renderPost(post));
+        }
+    </script>
+</body>
 </html>
