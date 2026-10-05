@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración del Blog</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        header { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        form, #loginBox { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        button { background: #007BFF; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 3px; }
+        button:hover { background: #0056b3; }
+        .btn-danger { background: #dc3545; font-size: 0.8em; margin-top: 10px; }
+        .btn-danger:hover { background: #bd2130; }
+        .post { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .post h3 { margin-top: 0; }
+        .post-date { color: #777; font-size: 0.85em; }
+        .hidden { display: none; }
+        .error { color: red; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+    <!-- Pantalla de Login -->
+    <div id="loginBox">
+        <h2>Acceso de Administrador</h2>
+        <p>Introduce la contraseña para gestionar el blog:</p>
+        <input type="password" id="passwordInput" placeholder="Contraseña">
+        <button id="loginBtn">Ingresar</button>
+        <p id="errorMessage" class="error hidden">Contraseña incorrecta. Inténtalo de nuevo.</p>
+    </div>
+
+    <!-- Contenido protegido -->
+    <div id="adminContent" class="hidden">
+        <header>
+            <h1>Panel de Administración</h1>
+            <a href="index.html" target="_blank">Ver sitio público ↗</a>
+        </header>
+
+        <!-- Formulario para publicar -->
+        <form id="blogForm">
+            <h2>Crear Nueva Publicación</h2>
+            <input type="text" id="postTitle" placeholder="Título del blog" required>
+            <textarea id="postContent" rows="5" placeholder="Escribe el contenido aquí..." required></textarea>
+            <button type="submit">Publicar Entrada</button>
+        </form>
+
+        <h2>Entradas Publicadas</h2>
+        <div id="blogPosts"></div>
+    </div>
+
+    <script>
+        // CONTRASEÑA DE ACCESO (Cámbiala aquí)
+        const ADMIN_PASSWORD = "admin123";
+
+        const loginBox = document.getElementById('loginBox');
+        const adminContent = document.getElementById('adminContent');
+        const loginBtn = document.getElementById('loginBtn');
+        const passwordInput = document.getElementById('passwordInput');
+        const errorMessage = document.getElementById('errorMessage');
+        const blogForm = document.getElementById('blogForm');
+        const blogPostsContainer = document.getElementById('blogPosts');
+
+        // Validar Contraseña
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        function checkPassword() {
+            if (passwordInput.value === ADMIN_PASSWORD) {
+                loginBox.classList.add('hidden');
+                adminContent.classList.remove('hidden');
+                loadPosts();
+            } else {
+                errorMessage.classList.remove('hidden');
+            }
+        }
+
+        // Evento para capturar el formulario
+        blogForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+            const date = new Date().toLocaleDateString();
+
+            const newPost = { id: Date.now(), title, content, date };
+
+            savePost(newPost);
+            loadPosts();
+
+            blogForm.reset();
+        });
+
+        // Mostrar posts cargados
+        function renderPost(post) {
+            const postDiv = document.createElement('div');
+            postDiv.classList.add('post');
+            postDiv.innerHTML = `
+                <h3>${post.title}</h3>
+                <p class="post-date">Publicado el: ${post.date}</p>
+                <p>${post.content.replace(/\n/g, '<br>')}</p>
+                <button class="btn-danger" onclick="deletePost(${post.id})">Eliminar Entrada</button>
+            `;
+            blogPostsContainer.insertBefore(postDiv, blogPostsContainer.firstChild);
+        }
+
+        // Guardar post
+        function savePost(post) {
+            let posts = JSON.parse(localStorage.getItem('myBlogPosts')) || [];
+            posts.push(post);
+            localStorage.setItem('myBlogPosts', JSON.stringify(posts));
+        }
+
+        // Cargar posts
+        function loadPosts() {
+            blogPostsContainer.innerHTML = '';
+            let posts = JSON.parse(localStorage.getItem('myBlogPosts')) || [];
+            posts.forEach(post => renderPost(post));
+        }
+
+        // Eliminar post
+        function deletePost(id) {
+            if (confirm("¿Seguro que quieres eliminar esta entrada?")) {
+                let posts = JSON.parse(localStorage.getItem('myBlogPosts')) || [];
+                posts = posts.filter(post => post.id !== id);
+                localStorage.setItem('myBlogPosts', JSON.stringify(posts));
+                loadPosts();
+            }
+        }
+    </script>
+</body>
+</html>
