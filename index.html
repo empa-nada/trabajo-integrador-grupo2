@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Blog Dinámico</title>
-
-    <!-- Enlace a tu archivo CSS externo -->
-    <link rel="stylesheet" href="style.css">
+    <title>Mi Blog Personal</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        header { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+        .post { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .post h2 { margin-top: 0; color: #333; }
+        .post-date { color: #777; font-size: 0.85em; }
+        .empty-state { text-align: center; color: #666; margin-top: 40px; }
+    </style>
 </head>
 <body>
 
@@ -14,66 +19,40 @@
         <h1>Mi Blog Personal</h1>
     </header>
 
-    <!-- Formulario para publicar -->
-    <form id="blogForm">
-        <h2>Crear Nueva Publicación</h2>
-        <input type="text" id="postTitle" placeholder="Título del blog" required>
-        <textarea id="postContent" rows="5" placeholder="Escribe el contenido aquí..." required></textarea>
-        <button type="submit">Publicar Entrada</button>
-    </form>
-
     <!-- Contenedor donde aparecerán los posts -->
-    <div id="blogPosts"></div>
+    <main id="blogPosts"></main>
 
     <script>
-        const blogForm = document.getElementById('blogForm');
         const blogPostsContainer = document.getElementById('blogPosts');
 
-        // 1. Cargar posts guardados al abrir la página
+        // Cargar publicaciones
         document.addEventListener('DOMContentLoaded', loadPosts);
 
-        // 2. Evento para capturar el formulario
-        blogForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Evita que la página se recargue
-
-            const title = document.getElementById('postTitle').value;
-            const content = document.getElementById('postContent').value;
-            const date = new Date().toLocaleDateString();
-
-            const newPost = { title, content, date };
-
-            savePost(newPost);
-            renderPost(newPost);
-
-            blogForm.reset(); // Limpia el formulario
-        });
-
-        // 3. Función para mostrar un post en pantalla
         function renderPost(post) {
-            const postDiv = document.createElement('div');
-            postDiv.classList.add('post');
-            postDiv.innerHTML = `
-                <h3>${post.title}</h3>
+            const postArticle = document.createElement('article');
+            postArticle.classList.add('post');
+            postArticle.innerHTML = `
+                <h2>${post.title}</h2>
                 <p class="post-date">Publicado el: ${post.date}</p>
                 <p>${post.content.replace(/\n/g, '<br>')}</p>
             `;
-            // Coloca el post nuevo al principio de la lista
-            blogPostsContainer.insertBefore(postDiv, blogPostsContainer.firstChild);
+            blogPostsContainer.insertBefore(postArticle, blogPostsContainer.firstChild);
         }
 
-        // 4. Guardar en el almacenamiento local del navegador
-        function savePost(post) {
-            let posts = JSON.parse(localStorage.getItem('myBlogPosts')) || [];
-            posts.push(post);
-            localStorage.setItem('myBlogPosts', JSON.stringify(posts));
-        }
-
-        // 5. Cargar todos los posts de LocalStorage
         function loadPosts() {
             let posts = JSON.parse(localStorage.getItem('myBlogPosts')) || [];
-            // Los mostramos en orden inverso (más reciente primero)
+            
+            if (posts.length === 0) {
+                blogPostsContainer.innerHTML = '<p class="empty-state">Aún no hay publicaciones disponibles.</p>';
+                return;
+            }
+
+            blogPostsContainer.innerHTML = '';
             posts.forEach(post => renderPost(post));
         }
+
+        // Escucha cambios en tiempo real si se publica algo desde otra pestaña
+        window.addEventListener('storage', loadPosts);
     </script>
 </body>
 </html>
