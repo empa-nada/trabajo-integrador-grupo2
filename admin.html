@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administración del Blog</title>
+    <link rel="stylesheet" href="style (1).css">
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        body { max-width: 800px; margin: 0 auto; padding: 20px; }
         header { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
         form, #loginBox { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 30px; }
         input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
-        button { background: #007BFF; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 3px; }
-        button:hover { background: #0056b3; }
         .btn-danger { background: #dc3545; font-size: 0.8em; margin-top: 10px; }
         .btn-danger:hover { background: #bd2130; }
         .post { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
@@ -21,6 +20,13 @@
     </style>
 </head>
 <body>
+    <nav>
+        <button class="menu-hamburguesa">☰</button>
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="productos.html">Productos</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
 
     <!-- Pantalla de Login -->
     <div id="loginBox">
@@ -48,6 +54,35 @@
 
         <h2>Entradas Publicadas</h2>
         <div id="blogPosts"></div>
+
+        <h2>Inventario de Productos</h2>
+        <table>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Stock</th>
+            </tr>
+            <tr>
+                <td>Producto 1</td>
+                <td>$5000</td>
+                <td>Disponible</td>
+            </tr>
+            <tr>
+                <td>Producto 2</td>
+                <td>$7500</td>
+                <td>Disponible</td>
+            </tr>
+            <tr>
+                <td>Producto 3</td>
+                <td>$3200</td>
+                <td>Agotado</td>
+            </tr>
+            <tr>
+                <td>Producto 4</td>
+                <td>$9000</td>
+                <td>Disponible</td>
+            </tr>
+        </table>
     </div>
 
     <script>
