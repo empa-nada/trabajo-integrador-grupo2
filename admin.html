@@ -23,9 +23,6 @@
     <nav>
         <button class="menu-hamburguesa">☰</button>
         <a href="index.html">Inicio</a>
-        <a href="nosotros.html">Nosotros</a>
-        <a href="productos.html">Productos</a>
-        <a href="contacto.html">Contacto</a>
     </nav>
 
     <!-- Pantalla de Login -->
@@ -40,7 +37,7 @@
     <!-- Contenido protegido -->
     <div id="adminContent" class="hidden">
         <header>
-            <h1>Panel de Administración</h1>
+            <h1>deadstar.diary</h1>
             <a href="index.html" target="_blank">Ver sitio público ↗</a>
         </header>
 
@@ -51,6 +48,23 @@
             <textarea id="postContent" rows="5" placeholder="Escribe el contenido aquí..." required></textarea>
             <button type="submit">Publicar Entrada</button>
         </form>
+
+        <script>
+    function publicar() {
+      const titulo = document.getElementById("titulo").value;
+      const contenido = document.getElementById("contenido").value;
+
+      const posts = JSON.parse(
+        localStorage.getItem("posts") || "[]"
+      );
+
+      posts.unshift({ titulo, contenido });
+
+      localStorage.setItem("posts", JSON.stringify(posts));
+
+      alert("POST GUARDADO ★");
+    }
+        
 
         <h2>Entradas Publicadas</h2>
         <div id="blogPosts"></div>
