@@ -1,3 +1,4 @@
+/* ESTILOS GENERALES */
 body {
     background-color: #f9f9f9;
     font-family: Arial, sans-serif;
@@ -5,7 +6,11 @@ body {
     padding: 0;
 }
 
-/* Menú de navegación */
+p {
+    font-size: 16px;
+}
+
+/* MENÚ DE NAVEGACIÓN GENERAL */
 nav {
     display: flex;
     gap: 20px;
@@ -24,7 +29,7 @@ nav a:hover {
     color: #007BFF;
 }
 
-/* Botón Hamburguesa */
+/* BOTÓN HAMBURGUESA */
 .menu-hamburguesa {
     font-size: 25px;
     background-color: transparent;
@@ -33,15 +38,13 @@ nav a:hover {
     cursor: pointer;
 }
 
+/* TÍTULOS GENERALES */
 h1 {
     color: #333;
     text-align: center;
 }
 
-p {
-    font-size: 16px;
-}
-
+/* BOTONES GENERALES */
 button {
     background-color: #007BFF;
     color: white;
@@ -56,7 +59,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Tablas */
+/* TABLAS */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -73,4 +76,116 @@ th, td {
 th {
     background-color: #333;
     color: white;
+}
+
+/* =====================================
+   ADMINISTRADOR DEL BLOG SOLAMENTE
+   ===================================== */
+
+/* Encabezado único centrado */
+.admin-blog .site-header {
+    display: block;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    padding: 30px 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+}
+
+.admin-blog .site-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+}
+
+/* No mostrar estilos del menú general
+   en la navegación de la presentación */
+.admin-blog .sidebar nav {
+    display: block;
+    padding: 0;
+    background: transparent;
+}
+
+.admin-blog .sidebar nav a {
+    display: block;
+    color: #444;
+    padding: 11px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Columnas del blog */
+.admin-blog .layout-blog {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+    gap: 30px;
+    align-items: start;
+}
+
+.admin-blog .blog-main {
+    grid-column: 1;
+    min-width: 0;
+}
+
+.admin-blog .sidebar {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+}
+
+/* Formulario y entradas */
+.admin-blog #blogForm,
+.admin-blog .post {
+    width: 100%;
+    background: white;
+    padding: 22px;
+    border-radius: 7px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.admin-blog input,
+.admin-blog textarea {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font: inherit;
+}
+
+.admin-blog .post-content {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.admin-blog .btn-danger {
+    background-color: #dc3545;
+    font-size: 0.85rem;
+}
+
+.admin-blog .btn-danger:hover {
+    background-color: #bd2130;
+}
+
+/* Adaptación a celulares */
+@media (max-width: 650px) {
+    .admin-blog .layout-blog {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-blog .blog-main {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .admin-blog .sidebar {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .admin-blog .site-header h1 {
+        font-size: 1.8rem;
+    }
 }
