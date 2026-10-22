@@ -74,86 +74,145 @@
     </main>
 
 </div>
-        <script>
-        //CONTRASEÑA DE ACCESO (Cámbiala aquí)
-        const ADMIN_PASSWORD = "admin123";
+        
+<script>
+    // CONTRASEÑA DE ACCESO
+    const ADMIN_PASSWORD = "admin123";
 
-        const loginBox = document.getElementById('loginBox');
-        const adminContent = document.getElementById('adminContent');
-        const loginBtn = document.getElementById('loginBtn');
-        const passwordInput = document.getElementById('passwordInput');
-        const errorMessage = document.getElementById('errorMessage');
-        const blogForm = document.getElementById('blogForm');
-        const blogPostsContainer = document.getElementById('blogPosts');
+    const loginBox = document.getElementById("loginBox");
+    const adminContent = document.getElementById("adminContent");
+    const loginBtn = document.getElementById("loginBtn");
+    const passwordInput = document.getElementById("passwordInput");
+    const errorMessage = document.getElementById("errorMessage");
+    const blogForm = document.getElementById("blogForm");
+    const blogPostsContainer = document.getElementById("blogPosts");
 
-        // Validar Contraseña
-        loginBtn.addEventListener('click', checkPassword);
-        passwordInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') checkPassword();
+    // Verificar que los elementos existan
+    if (
+        loginBox && adminContent && loginBtn &&
+        passwordInput && errorMessage &&
+        blogForm && blogPostsContainer
+    ) {
+        loginBtn.addEventListener("click", checkPassword);
+
+        passwordInput.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                checkPassword();
+            }
         });
 
+        // Validar contraseña
         function checkPassword() {
             if (passwordInput.value === ADMIN_PASSWORD) {
-                loginBox.classList.add('hidden');
-                adminContent.classList.remove('hidden');
+                loginBox.classList.add("hidden");
+                adminContent.classList.remove("hidden");
+                errorMessage.classList.add("hidden");
+                passwordInput.value = "";
                 loadPosts();
             } else {
-                errorMessage.classList.remove('hidden');
+                errorMessage.classList.remove("hidden");
+                passwordInput.value = "";
+                passwordInput.focus();
             }
         }
 
-        // Evento para capturar el formulario
-        blogForm.addEventListener('submit', function(e) {
+        // Publicar entrada
+        blogForm.addEventListener("submit", function(e) {
             e.preventDefault();
 
-            const title = document.getElementById('postTitle').value;
-            const content = document.getElementById('postContent').value;
-            const date = new Date().toLocaleDateString();
+            const title = document.getElementById("postTitle").value.trim();
+            const content = document.getElementById("postContent").value.trim();
 
-            const newPost = { id: Date.now(), title, content, date };
+            if (!title || !content) return;
+
+            const newPost = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                date: new Date().toLocaleDateString("es")
+            };
 
             savePost(newPost);
             loadPosts();
-
             blogForm.reset();
         });
 
-        // Mostrar posts cargados
+        // Mostrar publicaciones
         function renderPost(post) {
-            const postDiv = document.createElement('div');
-            postDiv.classList.add('post');
-            postDiv.innerHTML = `
-                <h3>${post.title}</h3>
-                <p class="post-date">Publicado el: ${post.date}</p>
-                <p>${post.content.replace(/\n/g, '<br>')}</p>
-                <button class="btn-danger" onclick="deletePost(${post.id})">Eliminar Entrada</button>
-            `;
-            blogPostsContainer.insertBefore(postDiv, blogPostsContainer.firstChild);
+            const postDiv = document.createElement("div");
+            postDiv.className = "post";
+
+            const title = document.createElement("h3");
+            title.textContent = post.title;
+
+            const date = document.createElement("p");
+            date.className = "post-date";
+            date.textContent = "Publicado el: " + post.date;
+
+            const content = document.createElement("p");
+            content.style.whiteSpace = "pre-wrap";
+            content.textContent = post.content;
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "btn-danger";
+            deleteBtn.textContent = "Eliminar entrada";
+
+            deleteBtn.addEventListener("click", function() {
+                deletePost(post.id);
+            });
+
+            postDiv.append(title, date, content, deleteBtn);
+            blogPostsContainer.appendChild(postDiv);
         }
 
-        // Guardar post
+        // Guardar publicaciones
         function savePost(post) {
-            let posts = JSON.parse(localStorage.getItem('myBlogPosts')) || [];
-            posts.push(post);
-            localStorage.setItem('myBlogPosts', JSON.stringify(posts));
+            const posts = JSON.parse(
+                localStorage.getItem("myBlogPosts") || "[]"
+            );
+
+            posts.unshift(post);
+
+            localStorage.setItem(
+                "myBlogPosts",
+                JSON.stringify(posts)
+            );
         }
 
-        // Cargar posts
+        // Cargar publicaciones
         function loadPosts() {
-            blogPostsContainer.innerHTML = '';
-            let posts = JSON.parse(localStorage.getItem('myBlogPosts')) || [];
-            posts.forEach(post => renderPost(post));
+            blogPostsContainer.innerHTML = "";
+
+            const posts = JSON.parse(
+                localStorage.getItem("myBlogPosts") || "[]"
+            );
+
+            posts.forEach(renderPost);
         }
 
-        // Eliminar post
+        // Eliminar publicación
         function deletePost(id) {
             if (confirm("¿Seguro que quieres eliminar esta entrada?")) {
-                let posts = JSON.parse(localStorage.getItem('myBlogPosts')) || [];
+                let posts = JSON.parse(
+                    localStorage.getItem("myBlogPosts") || "[]"
+                );
+
                 posts = posts.filter(post => post.id !== id);
-                localStorage.setItem('myBlogPosts', JSON.stringify(posts));
+
+                localStorage.setItem(
+                    "myBlogPosts",
+                    JSON.stringify(posts)
+                );
+
                 loadPosts();
             }
         }
-    </script>
+    } else {
+        console.error(
+            "Faltan elementos HTML. Revisa los IDs del formulario y del acceso."
+        );
+    }
+</script>
 </body>
 </html>
