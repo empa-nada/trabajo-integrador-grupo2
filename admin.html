@@ -39,23 +39,58 @@
         <header>
             <h1>deadstar.diary</h1>
             <a href="index.html" target="_blank">Ver sitio público ↗</a>
-        </header>
+       <header>
+    <h1>deadstar.diary</h1>
+    <a href="index.html" target="_blank">
+        Ver sitio público ↗
+    </a>
+</header>
 
-        <!-- Formulario para publicar -->
-        <form id="blogForm">
-            <h2>Crear Nueva Publicación</h2>
-            <input type="text" id="postTitle" placeholder="Título del blog" required>
-            <textarea id="postContent" rows="5" placeholder="Escribe el contenido aquí..." required></textarea>
-            <button type="submit">Publicar Entrada</button>
-        </form>
+<div class="layout-blog">
 
-        <h2>Entradas Publicadas</h2>
-        <div id="blogPosts"></div>
-
-          <div class="layout-blog">
-
+    <!-- COLUMNA IZQUIERDA -->
     <aside class="sidebar">
         <h2>deadstar.diary</h2>
+
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="index.html#sobre-mi">Sobre mí</a>
+            <a href="index.html#publicaciones">Publicaciones</a>
+            <a href="index.html#archivo">Archivo</a>
+            <a href="index.html#contacto">Contacto</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="blog-main">
+
+        <form id="blogForm">
+            <h2>Crear nueva publicación</h2>
+
+            <input
+                type="text"
+                id="postTitle"
+                placeholder="Título del blog"
+                required
+            >
+
+            <textarea
+                id="postContent"
+                rows="5"
+                placeholder="Escribe el contenido aquí..."
+                required
+            ></textarea>
+
+            <button type="submit">Publicar entrada</button>
+        </form>
+
+        <section id="publicaciones">
+            <h2>Entradas publicadas</h2>
+            <div id="blogPosts"></div>
+        </section>
+
+    </main>
+</div>
        
 <script>
     // CONTRASEÑA DE ACCESO
