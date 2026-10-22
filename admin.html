@@ -3,181 +3,446 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración del Blog</title>
+    <title>Administración del Blog - deadstar.diary</title>
+
     <link rel="stylesheet" href="style (1).css">
+
     <style>
-        body { max-width: 800px; margin: 0 auto; padding: 20px; }
-        header { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        form, #loginBox { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 30px; }
-        input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
-        .btn-danger { background: #dc3545; font-size: 0.8em; margin-top: 10px; }
-        .btn-danger:hover { background: #bd2130; }
-        .post { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .post h3 { margin-top: 0; }
-        .post-date { color: #777; font-size: 0.85em; }
-        .hidden { display: none; }
-        .error { color: red; font-size: 0.9em; }
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Navegación superior */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        /* Acceso de administrador */
+        #loginBox {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 40px auto;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+
+        /* Logo centrado */
+        .site-header {
+            position: relative;
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .site-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+        }
+
+        .site-header .public-link {
+            position: absolute;
+            right: 0;
+            top: 5px;
+            font-size: 0.85rem;
+        }
+
+        .site-subtitle {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* Columnas principales */
+        .layout-blog {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+            gap: 30px;
+            align-items: start;
+        }
+
+        .blog-main {
+            grid-column: 1;
+            min-width: 0;
+        }
+
+        /* Formulario */
+        #blogForm {
+            background: white;
+            padding: 22px;
+            border-radius: 7px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        input, textarea {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            font: inherit;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 10px 15px;
+        }
+
+        /* Publicaciones */
+        .post {
+            background: white;
+            padding: 22px;
+            border-radius: 7px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            overflow-wrap: anywhere;
+        }
+
+        .post h3 {
+            margin-top: 0;
+        }
+
+        .post-date {
+            color: #777;
+            font-size: 0.85em;
+        }
+
+        .post-content {
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+
+        .btn-danger:hover {
+            background: #bd2130;
+        }
+
+        /* Columna derecha: presentación */
+        .sidebar {
+            grid-column: 2;
+            grid-row: 1;
+            background: #f2eeee;
+            padding: 22px;
+            border-radius: 7px;
+            min-width: 0;
+        }
+
+        .sidebar h2 {
+            font-size: 1.25rem;
+            margin-top: 0;
+        }
+
+        .sidebar p {
+            line-height: 1.7;
+        }
+
+        .sidebar hr {
+            border: 0;
+            border-top: 1px solid #d5cccc;
+            margin: 22px 0;
+        }
+
+        .sidebar nav a {
+            display: block;
+            padding: 11px 0;
+            text-decoration: none;
+            color: #444;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .sidebar nav a:hover {
+            color: #999;
+        }
+
+        /* Diseño para celulares */
+        @media (max-width: 650px) {
+            body {
+                padding: 12px;
+            }
+
+            .site-header {
+                padding: 20px 0;
+            }
+
+            .site-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .site-header .public-link {
+                position: static;
+                display: block;
+                margin-top: 12px;
+            }
+
+            .layout-blog {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .blog-main {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .sidebar {
+                grid-column: 1;
+                grid-row: 2;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <nav>
-        <button class="menu-hamburguesa">☰</button>
+
+    <!-- Navegación -->
+    <nav class="top-nav">
+        <button type="button" class="menu-hamburguesa"
+                aria-label="Menú">☰</button>
         <a href="index.html">Inicio</a>
     </nav>
 
-    <!-- Pantalla de Login -->
+    <!-- Acceso de administrador -->
     <div id="loginBox">
         <h2>Acceso de Administrador</h2>
         <p>Introduce la contraseña para gestionar el blog:</p>
-        <input type="password" id="passwordInput" placeholder="Contraseña">
-        <button id="loginBtn">Ingresar</button>
-        <p id="errorMessage" class="error hidden">Contraseña incorrecta. Inténtalo de nuevo.</p>
-    </div>
 
-    <!-- Contenido protegido -->
-    <div id="adminContent" class="hidden">
-        <header>
-            <h1>deadstar.diary</h1>
-            <a href="index.html" target="_blank">Ver sitio público ↗</a>
-       <header>
-    <h1>deadstar.diary</h1>
-    <a href="index.html" target="_blank">
-        Ver sitio público ↗
-    </a>
-<header>
-    <h1>deadstar.diary</h1>
-    <a href="index.html" target="_blank">Ver sitio público ↗</a>
-</header>
-
-<div class="layout-blog">
-
-    <!-- COLUMNA IZQUIERDA: PUBLICACIONES -->
-    <main class="blog-main">
-
-        <form id="blogForm">
-            <h2>Crear nueva publicación</h2>
-
+        <form id="loginForm">
             <input
-                type="text"
-                id="postTitle"
-                placeholder="Título del blog"
+                type="password"
+                id="passwordInput"
+                placeholder="Contraseña"
+                autocomplete="current-password"
                 required
             >
 
-            <textarea
-                id="postContent"
-                rows="5"
-                placeholder="Escribe el contenido aquí..."
-                required
-            ></textarea>
+            <button type="submit" id="loginBtn">Ingresar</button>
 
-            <button type="submit">Publicar entrada</button>
+            <p id="errorMessage" class="error hidden">
+                Contraseña incorrecta. Inténtalo de nuevo.
+            </p>
         </form>
+    </div>
 
-        <section id="publicaciones">
-            <h2>Entradas publicadas</h2>
-            <div id="blogPosts"></div>
-        </section>
+    <!-- Contenido del administrador -->
+    <div id="adminContent" class="hidden">
 
-    </main>
+        <!-- Logo centrado arriba -->
+        <header class="site-header">
+            <h1>deadstar.diary</h1>
+            <p class="site-subtitle">mi pequeño rincón en internet ♡</p>
 
-    <!-- COLUMNA DERECHA: PRESENTACIÓN -->
-    <aside class="sidebar">
+            <a class="public-link"
+               href="index.html"
+               target="_blank"
+               rel="noopener">
+                Ver sitio público ↗
+            </a>
+        </header>
 
-        <h2>Presentación</h2>
+        <div class="layout-blog">
 
-        <p>
-            ¡Bienvenidos a deadstar.diary!
-        </p>
+            <!-- IZQUIERDA: PUBLICACIONES -->
+            <main class="blog-main">
 
-        <p>
-            Este es mi pequeño rincón personal,
-            donde comparto mis pensamientos,
-            gustos e historias.
-        </p>
+                <form id="blogForm">
+                    <h2>Crear nueva publicación</h2>
 
-        <hr>
+                    <input
+                        type="text"
+                        id="postTitle"
+                        placeholder="Título del blog"
+                        required
+                    >
 
-        <h2>Navegación</h2>
+                    <textarea
+                        id="postContent"
+                        rows="6"
+                        placeholder="Escribe el contenido aquí..."
+                        required
+                    ></textarea>
 
-        <nav>
-            <a href="index.html">Inicio</a>
-            <a href="index.html#sobre-mi">Sobre mí</a>
-            <a href="index.html#publicaciones">Publicaciones</a>
-            <a href="index.html#archivo">Archivo</a>
-            <a href="index.html#contacto">Contacto</a>
-        </nav>
+                    <button type="submit">
+                        Publicar entrada
+                    </button>
+                </form>
 
-    </aside>
+                <section id="publicaciones">
+                    <h2>Entradas publicadas</h2>
+                    <div id="blogPosts"></div>
+                </section>
 
-</div>
-       
-<script>
-    // CONTRASEÑA DE ACCESO
-    const ADMIN_PASSWORD = "admin123";
+            </main>
 
-    const loginBox = document.getElementById("loginBox");
-    const adminContent = document.getElementById("adminContent");
-    const loginBtn = document.getElementById("loginBtn");
-    const passwordInput = document.getElementById("passwordInput");
-    const errorMessage = document.getElementById("errorMessage");
-    const blogForm = document.getElementById("blogForm");
-    const blogPostsContainer = document.getElementById("blogPosts");
+            <!-- DERECHA: PRESENTACIÓN -->
+            <aside class="sidebar">
 
-    // Verificar que los elementos existan
-    if (
-        loginBox && adminContent && loginBtn &&
-        passwordInput && errorMessage &&
-        blogForm && blogPostsContainer
-    ) {
-        loginBtn.addEventListener("click", checkPassword);
+                <section id="sobre-mi">
+                    <h2>Presentación ♡</h2>
 
-        passwordInput.addEventListener("keydown", function(e) {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                checkPassword();
-            }
-        });
+                    <p>
+                        ¡Bienvenidos a deadstar.diary!
+                    </p>
 
-        // Validar contraseña
-        function checkPassword() {
+                    <p>
+                        Este es mi pequeño rincón personal,
+                        donde comparto mis pensamientos,
+                        gustos, historias y cosas que me inspiran.
+                    </p>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h2>Navegación</h2>
+
+                    <nav>
+                        <a href="index.html">Inicio</a>
+                        <a href="#sobre-mi">Sobre mí</a>
+                        <a href="#publicaciones">Publicaciones</a>
+                        <a href="index.html#archivo">Archivo</a>
+                        <a href="index.html#contacto">Contacto</a>
+                    </nav>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h2>Un pequeño recordatorio</h2>
+                    <p>
+                        Un lugar para escribir, recordar
+                        y ser uno mismo.
+                    </p>
+                </section>
+
+            </aside>
+
+        </div>
+    </div>
+
+    <script>
+        // CONTRASEÑA DE ACCESO
+        const ADMIN_PASSWORD = "admin123";
+
+        const loginBox = document.getElementById("loginBox");
+        const adminContent = document.getElementById("adminContent");
+        const loginForm = document.getElementById("loginForm");
+        const passwordInput = document.getElementById("passwordInput");
+        const errorMessage = document.getElementById("errorMessage");
+        const blogForm = document.getElementById("blogForm");
+        const blogPostsContainer = document.getElementById("blogPosts");
+
+        // Iniciar sesión
+        loginForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+
             if (passwordInput.value === ADMIN_PASSWORD) {
                 loginBox.classList.add("hidden");
                 adminContent.classList.remove("hidden");
                 errorMessage.classList.add("hidden");
                 passwordInput.value = "";
+
                 loadPosts();
             } else {
                 errorMessage.classList.remove("hidden");
                 passwordInput.value = "";
                 passwordInput.focus();
             }
+        });
+
+        // Obtener publicaciones guardadas
+        function getPosts() {
+            try {
+                const posts = JSON.parse(
+                    localStorage.getItem("myBlogPosts") || "[]"
+                );
+
+                return Array.isArray(posts) ? posts : [];
+            } catch (error) {
+                console.error("Error al leer las publicaciones:", error);
+                return [];
+            }
         }
 
-        // Publicar entrada
+        // Guardar publicaciones
+        function savePosts(posts) {
+            try {
+                localStorage.setItem(
+                    "myBlogPosts",
+                    JSON.stringify(posts)
+                );
+                return true;
+            } catch (error) {
+                alert("No se pudieron guardar las publicaciones.");
+                return false;
+            }
+        }
+
+        // Crear publicación
         blogForm.addEventListener("submit", function(e) {
             e.preventDefault();
 
-            const title = document.getElementById("postTitle").value.trim();
-            const content = document.getElementById("postContent").value.trim();
+            const title = document.getElementById("postTitle")
+                .value.trim();
+
+            const content = document.getElementById("postContent")
+                .value.trim();
 
             if (!title || !content) return;
+
+            const posts = getPosts();
 
             const newPost = {
                 id: Date.now(),
                 title: title,
                 content: content,
-                date: new Date().toLocaleDateString("es")
+                date: new Date().toLocaleDateString("es-AR")
             };
 
-            savePost(newPost);
-            loadPosts();
-            blogForm.reset();
+            posts.unshift(newPost);
+
+            if (savePosts(posts)) {
+                loadPosts();
+                blogForm.reset();
+            }
         });
 
-        // Mostrar publicaciones
+        // Mostrar una publicación
         function renderPost(post) {
-            const postDiv = document.createElement("div");
+            const postDiv = document.createElement("article");
             postDiv.className = "post";
 
             const title = document.createElement("h3");
@@ -188,10 +453,11 @@
             date.textContent = "Publicado el: " + post.date;
 
             const content = document.createElement("p");
-            content.style.whiteSpace = "pre-wrap";
+            content.className = "post-content";
             content.textContent = post.content;
 
             const deleteBtn = document.createElement("button");
+            deleteBtn.type = "button";
             deleteBtn.className = "btn-danger";
             deleteBtn.textContent = "Eliminar entrada";
 
@@ -203,53 +469,38 @@
             blogPostsContainer.appendChild(postDiv);
         }
 
-        // Guardar publicaciones
-        function savePost(post) {
-            const posts = JSON.parse(
-                localStorage.getItem("myBlogPosts") || "[]"
-            );
-
-            posts.unshift(post);
-
-            localStorage.setItem(
-                "myBlogPosts",
-                JSON.stringify(posts)
-            );
-        }
-
-        // Cargar publicaciones
+        // Cargar todas las publicaciones
         function loadPosts() {
-            blogPostsContainer.innerHTML = "";
+            blogPostsContainer.replaceChildren();
 
-            const posts = JSON.parse(
-                localStorage.getItem("myBlogPosts") || "[]"
-            );
+            const posts = getPosts();
+
+            if (posts.length === 0) {
+                const emptyMessage = document.createElement("p");
+                emptyMessage.textContent =
+                    "Todavía no hay publicaciones. ¡Crea la primera!";
+                blogPostsContainer.appendChild(emptyMessage);
+                return;
+            }
 
             posts.forEach(renderPost);
         }
 
         // Eliminar publicación
         function deletePost(id) {
-            if (confirm("¿Seguro que quieres eliminar esta entrada?")) {
-                let posts = JSON.parse(
-                    localStorage.getItem("myBlogPosts") || "[]"
-                );
+            if (!confirm("¿Seguro que quieres eliminar esta entrada?")) {
+                return;
+            }
 
-                posts = posts.filter(post => post.id !== id);
+            const posts = getPosts().filter(function(post) {
+                return post.id !== id;
+            });
 
-                localStorage.setItem(
-                    "myBlogPosts",
-                    JSON.stringify(posts)
-                );
-
+            if (savePosts(posts)) {
                 loadPosts();
             }
         }
-    } else {
-        console.error(
-            "Faltan elementos HTML. Revisa los IDs del formulario y del acceso."
-        );
-    }
-</script>
+    </script>
+
 </body>
 </html>
