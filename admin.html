@@ -49,23 +49,6 @@
             <button type="submit">Publicar Entrada</button>
         </form>
 
-         <script>
-    function publicar() {
-      const titulo = document.getElementById("titulo").value;
-      const contenido = document.getElementById("contenido").value;
-
-      const posts = JSON.parse(
-        localStorage.getItem("posts") || "[]"
-      );
-
-      posts.unshift({ titulo, contenido });
-
-      localStorage.setItem("posts", JSON.stringify(posts));
-
-      alert("POST GUARDADO ★");
-    }
-         </script>
-
         <h2>Entradas Publicadas</h2>
         <div id="blogPosts"></div>
 
