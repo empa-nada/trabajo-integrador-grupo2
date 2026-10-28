@@ -22,7 +22,7 @@
             display: none !important;
         }
 
-        /* Navegación superior (Barra oscura horizontal) */
+        /* Barra de navegación superior fija y horizontal */
         .top-nav {
             display: flex;
             align-items: center;
@@ -42,10 +42,11 @@
             padding: 0;
         }
 
-        /* Enlaces dentro de la barra de navegación superior */
+        /* Contenedor de enlaces dentro de la barra superior */
         .top-nav nav {
             display: flex;
-            gap: 15px;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .top-nav nav a {
@@ -246,7 +247,7 @@
 
 <body>
 
-    <!-- Navegación superior horizontal con barra oscura -->
+    <!-- Navegación superior (Menú horizontal oscuro) -->
     <nav class="top-nav">
         <button type="button" class="menu-hamburguesa" aria-label="Menú">☰</button>
         <nav>
@@ -330,7 +331,7 @@
 
             </main>
 
-            <!-- DERECHA: PRESENTACIÓN (Sin el menú duplicado) -->
+            <!-- DERECHA: PRESENTACIÓN (Sidebar limpia sin menú) -->
             <aside class="sidebar">
 
                 <section id="sobre-mi">
@@ -473,6 +474,10 @@
         }
 
         // Cargar todas las publicaciones
+        function postCount() {
+            // Cargar todas las publicaciones
+        }
+
         function loadPosts() {
             blogPostsContainer.replaceChildren();
 
