@@ -22,12 +22,42 @@
             display: none !important;
         }
 
-        /* Navegación superior */
+        /* Navegación superior (Barra oscura horizontal) */
         .top-nav {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
+            background-color: #222;
+            padding: 12px 20px;
+            border-radius: 6px;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .top-nav .menu-hamburguesa {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        /* Enlaces dentro de la barra de navegación superior */
+        .top-nav nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .top-nav nav a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .top-nav nav a:hover {
+            color: #fff;
+            text-decoration: underline;
         }
 
         /* Acceso de administrador */
@@ -176,20 +206,6 @@
             margin: 22px 0;
         }
 
-        /* CORRECCIÓN: Estilos mejorados para que la navegación se adapte al ancho del aside */
-        .sidebar nav a {
-            display: block;
-            padding: 11px 0;
-            text-decoration: none;
-            color: #444;
-            border-bottom: 1px solid #ddd;
-            overflow-wrap: break-word;
-        }
-
-        .sidebar nav a:hover {
-            color: #999;
-        }
-
         /* Diseño para celulares */
         @media (max-width: 650px) {
             body {
@@ -230,10 +246,16 @@
 
 <body>
 
-    <!-- Navegación -->
+    <!-- Navegación superior horizontal con barra oscura -->
     <nav class="top-nav">
         <button type="button" class="menu-hamburguesa" aria-label="Menú">☰</button>
-        <a href="index.html">Inicio</a>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="#sobre-mi">Sobre mí</a>
+            <a href="#publicaciones">Publicaciones</a>
+            <a href="#">Archivo</a>
+            <a href="#">Contacto</a>
+        </nav>
     </nav>
 
     <!-- Acceso de administrador -->
@@ -308,7 +330,7 @@
 
             </main>
 
-            <!-- DERECHA: PRESENTACIÓN -->
+            <!-- DERECHA: PRESENTACIÓN (Sin el menú duplicado) -->
             <aside class="sidebar">
 
                 <section id="sobre-mi">
@@ -318,20 +340,6 @@
                         Holi, soy una chica emo que vive entre música, noches lluviosas y pensamientos que nunca terminan. Me gustan el negro, el violeta, las estrellas, los días nublados y las canciones que parecen entenderte sin necesidad de explicar nada.
                         Este pequeño rincón de internet es mi refugio: un lugar para escribir lo que siento, compartir mis gustos, guardar recuerdos y mostrar un poquito de mi mundo.
                     </p>
-                </section>
-
-                <hr>
-
-                <!-- CORRECCIÓN: Se agrega la sección de navegación correctamente dentro del aside -->
-                <section>
-                    <h2>Navegación</h2>
-                    <nav>
-                        <a href="index.html">Inicio</a>
-                        <a href="#sobre-mi">Sobre mí</a>
-                        <a href="#publicaciones">Publicaciones</a>
-                        <a href="#">Archivo</a>
-                        <a href="#">Contacto</a>
-                    </nav>
                 </section>
 
                 <hr>
