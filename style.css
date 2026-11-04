@@ -1,191 +1,314 @@
-/* ESTILOS GENERALES */
+/* ============================================
+   deadstar.diary — tema emo oscuro y responsive
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Quicksand:wght@400;500;600&display=swap');
+
+:root {
+    --bg: #0b0910;
+    --bg-soft: #14101d;
+    --card: #181322;
+    --card-border: #2c2240;
+    --text: #d9d2e9;
+    --muted: #8b80a3;
+    --accent: #a366ff;      /* violeta */
+    --accent-soft: #6b3fb5;
+    --pink: #ff4fa3;        /* rosa neón */
+    --danger: #c2184b;
+    --glow: 0 0 18px rgba(163, 102, 255, 0.35);
+    --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
 body {
-    background-color: #f9f9f9;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 0 auto;
+    padding: clamp(12px, 3vw, 28px);
+    max-width: 860px;
+    min-height: 100vh;
+    color: var(--text);
+    font-family: 'Quicksand', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: clamp(15px, 1.4vw + 12px, 17px);
+    line-height: 1.65;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(163, 102, 255, 0.12), transparent 40%),
+        radial-gradient(circle at 85% 90%, rgba(255, 79, 163, 0.08), transparent 45%),
+        var(--bg);
+    background-attachment: fixed;
 }
 
-p {
-    font-size: 16px;
+/* Estrellitas decorativas de fondo */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-image:
+        radial-gradient(1.5px 1.5px at 20px 30px, #fff8, transparent),
+        radial-gradient(1px 1px at 90px 120px, #fff6, transparent),
+        radial-gradient(1.5px 1.5px at 160px 60px, #c9a8ff99, transparent),
+        radial-gradient(1px 1px at 230px 180px, #fff5, transparent);
+    background-size: 260px 220px;
+    opacity: 0.7;
 }
 
-/* MENÚ DE NAVEGACIÓN GENERAL */
-nav {
+h1, h2, h3 {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-weight: normal;
+    color: #f1e9ff;
+}
+
+a { color: var(--accent); }
+a:hover { color: var(--pink); }
+
+::selection { background: var(--accent-soft); color: #fff; }
+
+/* ---------- Navegación ---------- */
+.top-nav,
+.site-nav {
     display: flex;
-    gap: 20px;
-    padding: 15px;
-    background-color: #222;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    background: var(--bg-soft);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    margin-bottom: 24px;
 }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-nav a:hover {
-    color: #007BFF;
-}
-
-/* BOTÓN HAMBURGUESA */
 .menu-hamburguesa {
-    font-size: 25px;
-    background-color: transparent;
-    border: none;
-    color: white;
+    display: none;
+    background: none;
+    border: 1px solid var(--card-border);
+    color: var(--text);
+    font-size: 1.2rem;
+    padding: 4px 10px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
-/* TÍTULOS GENERALES */
-h1 {
-    color: #333;
-    text-align: center;
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
 }
 
-/* BOTONES GENERALES */
-button {
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
+.nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    padding: 2px 0;
+    border-bottom: 1px solid transparent;
+    transition: color .2s, border-color .2s, text-shadow .2s;
 }
 
-button:hover {
-    background-color: #0056b3;
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--pink);
+    border-bottom-color: var(--pink);
+    text-shadow: 0 0 10px rgba(255, 79, 163, 0.5);
 }
 
-/* TABLAS */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: white;
-}
-
-th, td {
-    border: 1px solid #333;
-    padding: 10px;
-    text-align: center;
-}
-
-th {
-    background-color: #333;
-    color: white;
-}
-
-/* =====================================
-   ADMINISTRADOR DEL BLOG SOLAMENTE
-   ===================================== */
-
-/* Encabezado único centrado */
-.admin-blog .site-header {
-    display: block;
+/* ---------- Encabezado ---------- */
+.site-header {
     position: relative;
-    width: 100%;
     text-align: center;
-    padding: 30px 0;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #ccc;
+    padding: clamp(14px, 4vw, 30px) 0;
+    margin-bottom: 28px;
+    border-bottom: 1px dashed var(--card-border);
 }
 
-.admin-blog .site-header h1 {
+.site-header h1 {
     margin: 0;
-    font-size: 2.5rem;
-    letter-spacing: 3px;
+    font-size: clamp(1.7rem, 7vw, 2.8rem);
+    letter-spacing: clamp(1px, 0.6vw, 4px);
+    text-shadow: 0 0 14px rgba(163, 102, 255, 0.7), 0 0 36px rgba(163, 102, 255, 0.3);
+    overflow-wrap: anywhere;
 }
 
-/* No mostrar estilos del menú general
-   en la navegación de la presentación */
-.admin-blog .sidebar nav {
-    display: block;
+.site-subtitle {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    font-style: italic;
+}
+
+.public-link {
+    position: absolute;
+    right: 0;
+    top: 4px;
+    font-size: 0.82rem;
+}
+
+/* ---------- Tarjetas / publicaciones ---------- */
+.post,
+.contact-card,
+#blogForm,
+#loginBox {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: clamp(16px, 3vw, 26px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+    margin-bottom: 22px;
+    overflow-wrap: anywhere;
+}
+
+.post:hover { border-color: var(--accent-soft); box-shadow: var(--glow); }
+
+.post h2, .post h3, .contact-card h2 { margin-top: 0; }
+
+.post-date {
+    color: var(--muted);
+    font-size: 0.82em;
+    margin: -4px 0 12px;
+}
+
+.post-date::before { content: "✦ "; color: var(--pink); }
+
+.post-content { white-space: pre-wrap; }
+
+.empty-state {
+    text-align: center;
+    color: var(--muted);
+    margin-top: 40px;
+    font-style: italic;
+}
+
+/* ---------- Contacto ---------- */
+.mail-list {
+    list-style: none;
     padding: 0;
-    background: transparent;
+    margin: 20px 0 0;
 }
 
-.admin-blog .sidebar nav a {
-    display: block;
-    color: #444;
-    padding: 11px 0;
-    border-bottom: 1px solid #ddd;
+.mail-list li {
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--card-border);
+    overflow-wrap: anywhere;
 }
 
-/* Columnas del blog */
-.admin-blog .layout-blog {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
-    gap: 30px;
-    align-items: start;
-}
+.mail-list li:last-child { border-bottom: 0; }
 
-.admin-blog .blog-main {
-    grid-column: 1;
-    min-width: 0;
-}
+.mail-list a { text-decoration: none; }
+.mail-list a:hover { text-decoration: underline; }
+.mail-list li::before { content: "🖤 "; }
 
-.admin-blog .sidebar {
-    grid-column: 2;
-    grid-row: 1;
-    min-width: 0;
-}
-
-/* Formulario y entradas */
-.admin-blog #blogForm,
-.admin-blog .post {
-    width: 100%;
-    background: white;
-    padding: 22px;
-    border-radius: 7px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    margin-bottom: 25px;
-}
-
-.admin-blog input,
-.admin-blog textarea {
+/* ---------- Formularios ---------- */
+input, textarea {
     display: block;
     width: 100%;
     padding: 12px;
     margin: 12px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
     font: inherit;
+    color: var(--text);
+    background: #0f0b17;
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
 }
 
-.admin-blog .post-content {
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
+input::placeholder, textarea::placeholder { color: #5f5578; }
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: var(--glow);
 }
 
-.admin-blog .btn-danger {
-    background-color: #dc3545;
-    font-size: 0.85rem;
+textarea { resize: vertical; }
+
+button {
+    cursor: pointer;
+    font: inherit;
+    padding: 10px 18px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent-soft), var(--accent));
+    border: 0;
+    border-radius: 6px;
+    transition: transform .15s, box-shadow .2s;
 }
 
-.admin-blog .btn-danger:hover {
-    background-color: #bd2130;
+button:hover { box-shadow: var(--glow); transform: translateY(-1px); }
+
+.menu-hamburguesa { background: none; }
+.menu-hamburguesa:hover { box-shadow: none; transform: none; }
+
+.btn-danger {
+    background: var(--danger);
+    font-size: 0.85em;
+    margin-top: 10px;
 }
 
-/* Adaptación a celulares */
+.btn-danger:hover { box-shadow: 0 0 14px rgba(194, 24, 75, 0.6); }
+
+.error { color: #ff6b8e; font-size: 0.9em; }
+
+.hidden { display: none !important; }
+
+#loginBox { max-width: 500px; margin: 40px auto; }
+
+/* ---------- Admin: layout en dos columnas ---------- */
+body.admin { max-width: 1100px; }
+
+.layout-blog {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.blog-main { min-width: 0; }
+
+.sidebar {
+    background: var(--bg-soft);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 22px;
+    min-width: 0;
+}
+
+.sidebar h2 { font-size: 1.2rem; margin-top: 0; }
+
+.sidebar hr {
+    border: 0;
+    border-top: 1px dashed var(--card-border);
+    margin: 22px 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .layout-blog { grid-template-columns: 1fr; }
+    .sidebar { order: 2; }
+}
+
 @media (max-width: 650px) {
-    .admin-blog .layout-blog {
-        grid-template-columns: 1fr;
+    .menu-hamburguesa { display: inline-block; }
+
+    .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        padding-top: 6px;
     }
 
-    .admin-blog .blog-main {
-        grid-column: 1;
-        grid-row: 1;
+    .nav-links.open { display: flex; }
+
+    .public-link {
+        position: static;
+        display: block;
+        margin-bottom: 10px;
     }
 
-    .admin-blog .sidebar {
-        grid-column: 1;
-        grid-row: 2;
-    }
+    #loginBox { margin: 20px auto; }
+}
 
-    .admin-blog .site-header h1 {
-        font-size: 1.8rem;
-    }
+/* Respeta a quien prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
 }
