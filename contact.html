@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - deadstar.diary</title>
+    <link rel="stylesheet" href="style (1).css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            border-bottom: 2px solid #333;
+            padding: 12px 0 18px;
+            margin-bottom: 30px;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        nav a:hover { text-decoration: underline; }
+        h1 {
+            margin: 0;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        .subtitle {
+            color: #888;
+            text-align: center;
+            margin: 8px 0 0;
+        }
+        .contact-card {
+            background: white;
+            padding: 26px;
+            border-radius: 7px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .contact-card h2 { margin-top: 0; }
+        .mail-list {
+            list-style: none;
+            padding: 0;
+            margin: 22px 0 0;
+        }
+        .mail-list li {
+            padding: 14px 0;
+            border-bottom: 1px solid #e5e0e0;
+            overflow-wrap: anywhere;
+        }
+        .mail-list li:last-child { border-bottom: 0; }
+        .mail-list a {
+            color: #333;
+            text-decoration: none;
+        }
+        .mail-list a:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .contact-card { padding: 20px; }
+            nav { gap: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Publicaciones</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+        <h1>deadstar.diary</h1>
+        <p class="subtitle">Lost in my own little universe ♡</p>
+    </header>
+
+    <main class="contact-card">
+        <h2>Contacto</h2>
+        <p>Podés comunicarte con nosotros a través de cualquiera de estos correos:</p>
+        <ul class="mail-list">
+            <li><a href="mailto:franmonayar@gmail.com">franmonayar@gmail.com</a></li>
+            <li><a href="mailto:santiagoalonsoarrigo718@gmail.com">santiagoalonsoarrigo718@gmail.com</a></li>
+            <li><a href="mailto:latadesodio123@gmail.com">latadesodio123@gmail.com</a></li>
+            <li><a href="mailto:emittamarinn@gmail.com">emittamarinn@gmail.com</a></li>
+            <li><a href="mailto:camilocravero12@gmail.com">camilocravero12@gmail.com</a></li>
+        </ul>
+    </main>
+</body>
+</html>
