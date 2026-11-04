@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - deadstar.diary</title>
+    <link rel="stylesheet" href="emo.css">
+</head>
+<body>
+
+    <nav class="top-nav">
+        <button type="button" class="menu-hamburguesa" aria-label="Menú" aria-expanded="false">☰</button>
+        <div class="nav-links">
+            <a href="blog.html">Publicaciones</a>
+            <a href="contacto.html" class="active">Contacto</a>
+        </div>
+    </nav>
+
+    <header class="site-header">
+        <h1>deadstar.diary</h1>
+        <p class="site-subtitle">Lost in my own little universe ♡</p>
+    </header>
+
+    <main class="contact-card">
+        <h2>Contacto</h2>
+        <p>Podés comunicarte con nosotros a través de cualquiera de estos correos:</p>
+        <ul class="mail-list">
+            <li><a href="mailto:franmonayar@gmail.com">franmonayar@gmail.com</a></li>
+            <li><a href="mailto:santiagoalonsoarrigo718@gmail.com">santiagoalonsoarrigo718@gmail.com</a></li>
+            <li><a href="mailto:latadesodio123@gmail.com">latadesodio123@gmail.com</a></li>
+            <li><a href="mailto:emittamarinn@gmail.com">emittamarinn@gmail.com</a></li>
+            <li><a href="mailto:camilocravero12@gmail.com">camilocravero12@gmail.com</a></li>
+        </ul>
+    </main>
+
+    <script>
+        const menuBtn = document.querySelector('.menu-hamburguesa');
+        const navLinks = document.querySelector('.nav-links');
+        menuBtn.addEventListener('click', function () {
+            const open = navLinks.classList.toggle('open');
+            menuBtn.setAttribute('aria-expanded', open);
+        });
+    </script>
+</body>
+</html>
