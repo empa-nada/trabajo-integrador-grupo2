@@ -8,26 +8,35 @@
 </head>
 <body>
 
+    <!-- Barra de navegación con menú hamburguesa -->
     <nav class="top-nav">
         <button type="button" class="menu-hamburguesa" aria-label="Menú" aria-expanded="false">☰</button>
         <div class="nav-links">
             <a href="blog.html" class="active">Publicaciones</a>
             <a href="contact.html">Contacto</a>
+            <a href="admin.html">Administrar</a>
         </div>
     </nav>
 
+    <!-- Encabezado principal del diario -->
     <header class="site-header">
         <h1>deadstar.diary</h1>
         <p class="site-subtitle">Lost in my own little universe ♡</p>
     </header>
 
-    <!-- Contenedor donde aparecerán los posts -->
+    <!-- Contenedor donde JavaScript inyecta los posts guardados -->
     <main id="blogPosts"></main>
+
+    <!-- Pie de página (Footer) -->
+    <footer class="site-footer">
+        <p><span>✦</span> deadstar.diary — Grupo 2 <span>✦</span></p>
+        <p>Alonso Arrigo • Cravero Sierra • Monayar • Patiño Marín • Sanchez</p>
+    </footer>
 
     <script>
         const blogPostsContainer = document.getElementById('blogPosts');
 
-        // Menú hamburguesa (celulares)
+        // Lógica del botón hamburguesa: agrega o quita la clase 'open' para mostrar/ocultar los enlaces
         const menuBtn = document.querySelector('.menu-hamburguesa');
         const navLinks = document.querySelector('.nav-links');
         menuBtn.addEventListener('click', function () {
@@ -35,9 +44,10 @@
             menuBtn.setAttribute('aria-expanded', open);
         });
 
-        // Cargar publicaciones
+        // Ejecuta la carga de publicaciones apenas termina de cargar el HTML
         document.addEventListener('DOMContentLoaded', loadPosts);
 
+        // Lee las publicaciones guardadas en el navegador (localStorage)
         function getPosts() {
             try {
                 const posts = JSON.parse(localStorage.getItem('myBlogPosts') || '[]');
@@ -47,6 +57,7 @@
             }
         }
 
+        // Crea la tarjeta HTML de cada publicación individual
         function renderPost(post) {
             const postArticle = document.createElement('article');
             postArticle.className = 'post';
@@ -66,6 +77,7 @@
             blogPostsContainer.appendChild(postArticle);
         }
 
+        // Muestra todos los posts o un mensaje si el blog está vacío
         function loadPosts() {
             const posts = getPosts();
             blogPostsContainer.replaceChildren();
@@ -78,11 +90,10 @@
                 return;
             }
 
-            // Las más nuevas primero (admin las guarda con unshift)
             posts.forEach(renderPost);
         }
 
-        // Escucha cambios en tiempo real si se publica algo desde otra pestaña
+        // Actualiza automáticamente si se publica algo desde admin.html en otra pestaña
         window.addEventListener('storage', loadPosts);
     </script>
 </body>
