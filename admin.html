@@ -39,7 +39,7 @@
         </form>
     </div>
 
-    <!-- Contenido del administrador (oculto hasta iniciar sesión) -->
+    <!-- Contenido del administrador (oculto por defecto) -->
     <div id="adminContent" class="hidden">
 
         <header class="site-header">
@@ -75,7 +75,7 @@
                 </section>
             </main>
 
-            <!-- DERECHA: BARRA LATERAL DE PRESENTACIÓN -->
+            <!-- DERECHA: BARRA LATERAL -->
             <aside class="sidebar">
                 <section id="sobre-mi">
                     <h2>🖤 Sobre mí | deadstar.diary 🥀♡</h2>
@@ -124,11 +124,22 @@
             menuBtn.setAttribute("aria-expanded", open);
         });
 
-        // Validar inicio de sesión
+        // VERIFICAR SESIÓN AL CARGAR LA PÁGINA
+        document.addEventListener("DOMContentLoaded", function() {
+            const isLogged = localStorage.getItem("adminLogged");
+            if (isLogged === "true") {
+                loginBox.classList.add("hidden");
+                adminContent.classList.remove("hidden");
+                loadPosts();
+            }
+        });
+
+        // Validar inicio de sesión y guardarlo en localStorage
         loginForm.addEventListener("submit", function(e) {
             e.preventDefault();
 
             if (passwordInput.value === ADMIN_PASSWORD) {
+                localStorage.setItem("adminLogged", "true"); // Guarda la sesión
                 loginBox.classList.add("hidden");
                 adminContent.classList.remove("hidden");
                 errorMessage.classList.add("hidden");
@@ -141,13 +152,14 @@
             }
         });
 
-        // Botón cerrar sesión
+        // Botón cerrar sesión (borra el estado de localStorage)
         logoutBtn.addEventListener("click", function() {
+            localStorage.removeItem("adminLogged"); // Borra la sesión
             adminContent.classList.add("hidden");
             loginBox.classList.remove("hidden");
         });
 
-        // Leer posts de localStorage
+        // Leer posts
         function getPosts() {
             try {
                 const posts = JSON.parse(localStorage.getItem("myBlogPosts") || "[]");
@@ -157,7 +169,7 @@
             }
         }
 
-        // Guardar posts en localStorage
+        // Guardar posts
         function savePosts(posts) {
             try {
                 localStorage.setItem("myBlogPosts", JSON.stringify(posts));
@@ -193,7 +205,7 @@
             }
         });
 
-        // Dibujar cada post con su botón de eliminar
+        // Dibujar post
         function renderPost(post) {
             const postDiv = document.createElement("article");
             postDiv.className = "post";
@@ -222,7 +234,7 @@
             blogPostsContainer.appendChild(postDiv);
         }
 
-        // Cargar lista de posts
+        // Cargar posts
         function loadPosts() {
             blogPostsContainer.replaceChildren();
             const posts = getPosts();
@@ -238,7 +250,7 @@
             posts.forEach(renderPost);
         }
 
-        // Eliminar publicación por ID
+        // Eliminar post
         function deletePost(id) {
             if (!confirm("¿Seguro que quieres eliminar esta entrada?")) return;
 
