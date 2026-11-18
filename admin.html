@@ -15,10 +15,11 @@
         <div class="nav-links">
             <a href="blog.html">Publicaciones</a>
             <a href="contact.html">Contacto</a>
+            <a href="admin.html" class="active">Administrar</a>
         </div>
     </nav>
 
-    <!-- Acceso de administrador -->
+    <!-- Acceso de administrador (Contraseña: admin123) -->
     <div id="loginBox">
         <h2>Acceso de Administrador</h2>
         <p>Introduce la contraseña para gestionar el blog:</p>
@@ -31,63 +32,53 @@
                 autocomplete="current-password"
                 required
             >
-
             <button type="submit" id="loginBtn">Ingresar</button>
-
             <p id="errorMessage" class="error hidden">
                 Contraseña incorrecta. Inténtalo de nuevo.
             </p>
         </form>
     </div>
 
-    <!-- Contenido del administrador -->
+    <!-- Contenido del administrador (oculto hasta iniciar sesión) -->
     <div id="adminContent" class="hidden">
 
         <header class="site-header">
+            <button type="button" id="logoutBtn" class="btn-danger public-link">Cerrar sesión</button>
             <h1>deadstar.diary</h1>
             <p class="site-subtitle">Lost in my own little universe ♡</p>
         </header>
 
         <div class="layout-blog">
 
-            <!-- IZQUIERDA: PUBLICACIONES -->
+            <!-- IZQUIERDA: FORMULARIO Y LISTA DE POSTS -->
             <main class="blog-main">
-
                 <form id="blogForm">
                     <h2>Crear nueva publicación</h2>
-
                     <input
                         type="text"
                         id="postTitle"
                         placeholder="Título del blog"
                         required
                     >
-
                     <textarea
                         id="postContent"
                         rows="6"
                         placeholder="Escribe el contenido aquí..."
                         required
                     ></textarea>
-
-                    <button type="submit">
-                        Publicar entrada
-                    </button>
+                    <button type="submit">Publicar entrada</button>
                 </form>
 
                 <section id="publicaciones">
                     <h2>Entradas publicadas</h2>
                     <div id="blogPosts"></div>
                 </section>
-
             </main>
 
-            <!-- DERECHA: PRESENTACIÓN -->
+            <!-- DERECHA: BARRA LATERAL DE PRESENTACIÓN -->
             <aside class="sidebar">
-
                 <section id="sobre-mi">
                     <h2>🖤 Sobre mí | deadstar.diary 🥀♡</h2>
-
                     <p>
                         Holi, soy una chica emo que vive entre música, noches lluviosas y pensamientos que nunca terminan. Me gustan el negro, el violeta, las estrellas, los días nublados y las canciones que parecen entenderte sin necesidad de explicar nada.
                         Este pequeño rincón de internet es mi refugio: un lugar para escribir lo que siento, compartir mis gustos, guardar recuerdos y mostrar un poquito de mi mundo.
@@ -102,25 +93,30 @@
                         medio poser tener de banda fav my chemical romance siendo emo.
                     </p>
                 </section>
-
             </aside>
 
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p><span>✦</span> deadstar.diary — Grupo 2 <span>✦</span></p>
+        <p>Alonso Arrigo • Cravero Sierra • Monayar • Patiño Marín • Sanchez</p>
+    </footer>
+
     <script>
-        // CONTRASEÑA DE ACCESO
         const ADMIN_PASSWORD = "admin123";
 
         const loginBox = document.getElementById("loginBox");
         const adminContent = document.getElementById("adminContent");
         const loginForm = document.getElementById("loginForm");
+        const logoutBtn = document.getElementById("logoutBtn");
         const passwordInput = document.getElementById("passwordInput");
         const errorMessage = document.getElementById("errorMessage");
         const blogForm = document.getElementById("blogForm");
         const blogPostsContainer = document.getElementById("blogPosts");
 
-        // Menú hamburguesa (celulares)
+        // Menú hamburguesa
         const menuBtn = document.querySelector(".menu-hamburguesa");
         const navLinks = document.querySelector(".nav-links");
         menuBtn.addEventListener("click", function() {
@@ -128,7 +124,7 @@
             menuBtn.setAttribute("aria-expanded", open);
         });
 
-        // Iniciar sesión
+        // Validar inicio de sesión
         loginForm.addEventListener("submit", function(e) {
             e.preventDefault();
 
@@ -137,7 +133,6 @@
                 adminContent.classList.remove("hidden");
                 errorMessage.classList.add("hidden");
                 passwordInput.value = "";
-
                 loadPosts();
             } else {
                 errorMessage.classList.remove("hidden");
@@ -146,27 +141,26 @@
             }
         });
 
-        // Obtener publicaciones guardadas
+        // Botón cerrar sesión
+        logoutBtn.addEventListener("click", function() {
+            adminContent.classList.add("hidden");
+            loginBox.classList.remove("hidden");
+        });
+
+        // Leer posts de localStorage
         function getPosts() {
             try {
-                const posts = JSON.parse(
-                    localStorage.getItem("myBlogPosts") || "[]"
-                );
-
+                const posts = JSON.parse(localStorage.getItem("myBlogPosts") || "[]");
                 return Array.isArray(posts) ? posts : [];
             } catch (error) {
-                console.error("Error al leer las publicaciones:", error);
                 return [];
             }
         }
 
-        // Guardar publicaciones
+        // Guardar posts en localStorage
         function savePosts(posts) {
             try {
-                localStorage.setItem(
-                    "myBlogPosts",
-                    JSON.stringify(posts)
-                );
+                localStorage.setItem("myBlogPosts", JSON.stringify(posts));
                 return true;
             } catch (error) {
                 alert("No se pudieron guardar las publicaciones.");
@@ -174,20 +168,16 @@
             }
         }
 
-        // Crear publicación
+        // Crear nueva publicación
         blogForm.addEventListener("submit", function(e) {
             e.preventDefault();
 
-            const title = document.getElementById("postTitle")
-                .value.trim();
-
-            const content = document.getElementById("postContent")
-                .value.trim();
+            const title = document.getElementById("postTitle").value.trim();
+            const content = document.getElementById("postContent").value.trim();
 
             if (!title || !content) return;
 
             const posts = getPosts();
-
             const newPost = {
                 id: Date.now(),
                 title: title,
@@ -203,7 +193,7 @@
             }
         });
 
-        // Mostrar una publicación
+        // Dibujar cada post con su botón de eliminar
         function renderPost(post) {
             const postDiv = document.createElement("article");
             postDiv.className = "post";
@@ -232,17 +222,15 @@
             blogPostsContainer.appendChild(postDiv);
         }
 
-        // Cargar todas las publicaciones
+        // Cargar lista de posts
         function loadPosts() {
             blogPostsContainer.replaceChildren();
-
             const posts = getPosts();
 
             if (posts.length === 0) {
                 const emptyMessage = document.createElement("p");
                 emptyMessage.className = "empty-state";
-                emptyMessage.textContent =
-                    "Todavía no hay publicaciones. ¡Crea la primera!";
+                emptyMessage.textContent = "Todavía no hay publicaciones. ¡Crea la primera!";
                 blogPostsContainer.appendChild(emptyMessage);
                 return;
             }
@@ -250,11 +238,9 @@
             posts.forEach(renderPost);
         }
 
-        // Eliminar publicación
+        // Eliminar publicación por ID
         function deletePost(id) {
-            if (!confirm("¿Seguro que quieres eliminar esta entrada?")) {
-                return;
-            }
+            if (!confirm("¿Seguro que quieres eliminar esta entrada?")) return;
 
             const posts = getPosts().filter(function(post) {
                 return post.id !== id;
